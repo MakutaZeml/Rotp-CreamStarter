@@ -1,0 +1,12 @@
+{
+  "entity.rotp_zcs.cream_starter": "Cream Starter",
+  "stand.rotp_zcs.cream_starter": "Cream Starter",
+
+  "item.rotp_zcs.cream_starter": "Cream Starter",
+  
+  "action.rotp_zcs.give_cs": "Summon Cream Starter",
+
+  "rotp_zcs.subtitle.st_shot": "Meat Spray",
+  "rotp_zcs.subtitle.hot_cs": "\"Cream Starter\""
+
+}

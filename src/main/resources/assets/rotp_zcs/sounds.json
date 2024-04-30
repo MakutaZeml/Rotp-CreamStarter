@@ -1,0 +1,15 @@
+{
+
+  "hot_cs": {
+    "subtitle": "rotp_zcs.subtitle.hot_cs",
+    "sounds": [ "rotp_zcs:user/cs_user"]
+  },
+  "cs_shot": {
+    "subtitle": "rotp_zcs.subtitle.cs_shot",
+    "sounds": ["rotp_zcs:stand/shot_1","rotp_zcs:stand/shot_2"]
+  },
+
+  "void":{
+    "sounds": [ "rotp_zhp:void"]
+  }
+}
