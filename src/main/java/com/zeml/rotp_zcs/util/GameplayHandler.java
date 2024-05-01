@@ -18,6 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Mod.EventBusSubscriber(modid = CreamStarterAddon.MOD_ID)
@@ -43,7 +44,10 @@ public class GameplayHandler {
                             player.addItem(itemStack);
 
                         }else {
-
+                            if(hasPlayerCS(player)){
+                                clearEntCS(player);
+                            }
+                            delDupCS(player);
                         }
                     }else {
                         clearCS(player);
@@ -88,6 +92,22 @@ public class GameplayHandler {
         }
     }
 
+
+    private static void delDupCS(PlayerEntity players){
+        ServerPlayerEntity serverPlayer = (ServerPlayerEntity) players;
+        AtomicInteger count = new AtomicInteger();
+        serverPlayer.getLevel().players().forEach(player -> {
+            for (int i=0; i<player.inventory.getContainerSize();++i){
+                ItemStack itemStack = player.inventory.getItem(i);
+                if(csOwner(player,itemStack)){
+                    count.incrementAndGet();
+                    if(count.get() >1){
+                        itemStack.shrink(1);
+                    }
+                }
+            }
+        });
+    }
 
 
     private static boolean hasPlayerCS(PlayerEntity players){
