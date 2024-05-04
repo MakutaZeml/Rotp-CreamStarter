@@ -1,12 +1,8 @@
 package com.zeml.rotp_zcs;
 
-import com.zeml.rotp_zcs.init.InitEntities;
-import com.zeml.rotp_zcs.init.InitItems;
+import com.zeml.rotp_zcs.init.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.zeml.rotp_zcs.init.InitSounds;
-import com.zeml.rotp_zcs.init.InitStands;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -26,6 +22,7 @@ public class CreamStarterAddon {
         InitStands.ACTIONS.register(modEventBus);
         InitStands.STANDS.register(modEventBus);
         InitItems.ITEMS.register(modEventBus);
+        InitParticles.PARTICLES.register(modEventBus);
 
     }
 

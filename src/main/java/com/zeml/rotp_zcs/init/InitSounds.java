@@ -25,6 +25,13 @@ public class InitSounds {
             ()->new SoundEvent(new ResourceLocation(CreamStarterAddon.MOD_ID, "hot_cs"))
             );
 
+    public static final RegistryObject<SoundEvent> CS_SPRAY = SOUNDS.register("cs_shot",
+            ()->new SoundEvent(new ResourceLocation(CreamStarterAddon.MOD_ID, "cs_shot"))
+    );
+
+    public static final RegistryObject<SoundEvent> CS_SHAKE = SOUNDS.register("cs_shake",
+            ()->new SoundEvent(new ResourceLocation(CreamStarterAddon.MOD_ID, "cs_shake"))
+    );
 
     static final OstSoundList HOT_OST = new OstSoundList(new ResourceLocation(CreamStarterAddon.MOD_ID, "cs_ost"), SOUNDS);
 }

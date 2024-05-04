@@ -11,9 +11,7 @@ public class InitParticles {
 
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, CreamStarterAddon.MOD_ID);
 
-
-    public static final RegistryObject<BasicParticleType> MEAT_CREAM = PARTICLES.register("meat_cream", () -> new BasicParticleType(false));
-
+    public static final RegistryObject<BasicParticleType> MEAT = PARTICLES.register("meat_particle", () -> new BasicParticleType(false));
 
 
 }

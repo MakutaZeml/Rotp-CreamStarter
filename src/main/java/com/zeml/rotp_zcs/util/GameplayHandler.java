@@ -1,28 +1,75 @@
 package com.zeml.rotp_zcs.util;
 
 import com.github.standobyte.jojo.entity.stand.StandEntity;
+import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.power.impl.stand.type.StandType;
 import com.zeml.rotp_zcs.CreamStarterAddon;
+import com.zeml.rotp_zcs.entity.damaging.projectile.SprayEntity;
+import com.zeml.rotp_zcs.init.InitEntities;
 import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitStands;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.SkeletonEntity;
+import net.minecraft.entity.monster.WitherSkeletonEntity;
+import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.passive.SnowGolemEntity;
+import net.minecraft.entity.passive.horse.SkeletonHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.Hand;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Mod.EventBusSubscriber(modid = CreamStarterAddon.MOD_ID)
 public class GameplayHandler {
+
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onPlayerHurt(LivingHurtEvent event){
+        LivingEntity living = event.getEntityLiving();
+        if(event.getAmount()>10){
+            if(living.isUsingItem() && living.getUseItem().getItem() == InitItems.CREAM_STARTER.get()){
+                living.stopUsingItem();
+            }
+            IStandPower.getStandPowerOptional(living).ifPresent(standPower -> {
+                if(standPower.getHeldAction() == InitStands.CS_HEAL.get()){
+                    standPower.stopHeldAction(false);
+                }
+            });
+        }
+        if(event.getEntity() instanceof SprayEntity){
+
+            Entity pro = event.getEntity();
+
+                if (pro.position().y <= living.position().y + 5 * living.getBbHeight() / 9) {
+                    living.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 60, 1));
+                    living.addEffect(new EffectInstance(ModStatusEffects.MISSHAPEN_LEGS.get(), 30));
+                }
+                if (pro.position().y > living.position().y + 15 * living.getBbHeight() / 18) {
+                    living.addEffect(new EffectInstance(Effects.BLINDNESS, 30, 1));
+                }
+        }
+
+    }
+
+
+
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onPlayerTick(TickEvent.PlayerTickEvent event){
@@ -37,9 +84,8 @@ public class GameplayHandler {
                             CompoundNBT nbt = new CompoundNBT();
                             itemStack.setTag(nbt);
 
-
                             nbt.putString("owner",player.getName().getString());
-                            nbt.putBoolean("attack",true);
+                            nbt.putString("mode","attack");
 
                             player.addItem(itemStack);
 
@@ -65,7 +111,7 @@ public class GameplayHandler {
             ServerPlayerEntity servPlater =  (ServerPlayerEntity) players;
             servPlater.getLevel().players().forEach(player -> {
                 for (int i=0; i<player.inventory.getContainerSize();++i){
-                    if(csOwner(player,player.inventory.getItem(i))){
+                    if(csOwner(players,player.inventory.getItem(i))){
                         player.inventory.getItem(i).shrink(1);
                     }
                 }
@@ -95,35 +141,34 @@ public class GameplayHandler {
 
     private static void delDupCS(PlayerEntity players){
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) players;
-        AtomicInteger count = new AtomicInteger();
-        serverPlayer.getLevel().players().forEach(player -> {
+        int count = 0;
+        for (ServerPlayerEntity player : serverPlayer.getLevel().players()) {
             for (int i=0; i<player.inventory.getContainerSize();++i){
                 ItemStack itemStack = player.inventory.getItem(i);
-                if(csOwner(player,itemStack)){
-                    count.incrementAndGet();
-                    if(count.get() >1){
+                if(csOwner(players,itemStack)){
+                    count++;
+                    if(count>1){
                         itemStack.shrink(1);
                     }
                 }
             }
-        });
+        }
     }
 
 
     private static boolean hasPlayerCS(PlayerEntity players){
         if(players instanceof ServerPlayerEntity){
-            AtomicBoolean turn = new AtomicBoolean(false);
+            boolean turn = false;
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) players;
-            serverPlayer.getLevel().players().forEach(player -> {
+            for (ServerPlayerEntity player : serverPlayer.getLevel().players()) {
                 for(int i=0;i<player.inventory.getContainerSize();++i){
-                    if(csOwner(player, player.inventory.getItem(i))){
-                        turn.set(true);
+                    if(csOwner(players, player.inventory.getItem(i))){
+                        turn = true;
                         i= player.inventory.getContainerSize();
                     }
-
                 }
-            });
-            return turn.get();
+            }
+            return turn;
         }else {
             boolean turn = false;
             for(int i=0;i<players.inventory.getContainerSize();++i){
@@ -136,14 +181,14 @@ public class GameplayHandler {
 
     private static boolean isItemCS(PlayerEntity players){
         if(players instanceof ServerPlayerEntity){
-            AtomicBoolean turn = new AtomicBoolean(false);
             ServerPlayerEntity player = (ServerPlayerEntity) players;
-            player.getLevel().getEntities().filter(entity -> entity instanceof ItemEntity && ((ItemEntity)entity).getItem().getItem() == InitItems.CREAM_STARTER.get())
-                    .forEach(entity -> {
+            boolean turn = player.getLevel().getEntities().filter(entity -> entity instanceof ItemEntity && ((ItemEntity)entity).getItem().getItem() == InitItems.CREAM_STARTER.get())
+                    .anyMatch(entity -> {
                         ItemStack itemStack = ((ItemEntity) entity).getItem();
-                        turn.set(csOwner(player, itemStack));
+                        return csOwner(player, itemStack);
                     });
-            return turn.get();
+
+            return turn;
         }else {
             return players.level.getEntitiesOfClass(ItemEntity.class,players.getBoundingBox().inflate(1000), EntityPredicates.ENTITY_STILL_ALIVE).stream()
                     .anyMatch(itemEntity -> csOwner(players,itemEntity.getItem()));

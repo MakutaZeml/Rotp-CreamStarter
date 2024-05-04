@@ -6,7 +6,18 @@
   },
   "cs_shot": {
     "subtitle": "rotp_zcs.subtitle.cs_shot",
-    "sounds": ["rotp_zcs:stand/shot_1","rotp_zcs:stand/shot_2"]
+    "sounds": ["rotp_zcs:stand/spray_ph","rotp_zcs:stand/spray_ph_2","rotp_zcs:stand/spray_ph_3","rotp_zcs:stand/spray_ph_4",
+      "rotp_zcs:stand/spray_ph_5"]
+  },
+
+  "cs_shot_l": {
+    "subtitle": "rotp_zcs.subtitle.cs_shot",
+    "sounds": ["rotp_zcs:stand/spray_long"]
+  },
+
+  "cs_shake": {
+    "subtitle": "rotp_zcs.subtitle.cs_shake",
+    "sounds": ["rotp_zcs:stand/spray_shake"]
   },
 
   "void":{
