@@ -1,39 +1,27 @@
 package com.zeml.rotp_zcs.util;
 
 import com.github.standobyte.jojo.entity.stand.StandEntity;
-import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.power.impl.stand.type.StandType;
 import com.zeml.rotp_zcs.CreamStarterAddon;
-import com.zeml.rotp_zcs.entity.damaging.projectile.SprayEntity;
-import com.zeml.rotp_zcs.init.InitEntities;
 import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitStands;
+import com.zeml.rotp_zcs.item.CreamStarterItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.monster.WitherSkeletonEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.SnowGolemEntity;
-import net.minecraft.entity.passive.horse.SkeletonHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.Hand;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Mod.EventBusSubscriber(modid = CreamStarterAddon.MOD_ID)
@@ -43,32 +31,22 @@ public class GameplayHandler {
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onPlayerHurt(LivingHurtEvent event){
         LivingEntity living = event.getEntityLiving();
-        if(event.getAmount()>10){
-            if(living.isUsingItem() && living.getUseItem().getItem() == InitItems.CREAM_STARTER.get()){
-                living.stopUsingItem();
+        Entity fro = event.getSource().getEntity();
+
+        if(!living.level.isClientSide){
+            if(event.getAmount()>10){
+                if(living.isUsingItem() && living.getUseItem().getItem() == InitItems.CREAM_STARTER.get()){
+                    living.stopUsingItem();
+                }
+                IStandPower.getStandPowerOptional(living).ifPresent(standPower -> {
+                    if(standPower.getHeldAction() == InitStands.CS_HEAL.get()){
+                        standPower.stopHeldAction(false);
+                    }
+                });
             }
-            IStandPower.getStandPowerOptional(living).ifPresent(standPower -> {
-                if(standPower.getHeldAction() == InitStands.CS_HEAL.get()){
-                    standPower.stopHeldAction(false);
-                }
-            });
+
         }
-        if(event.getEntity() instanceof SprayEntity){
-
-            Entity pro = event.getEntity();
-
-                if (pro.position().y <= living.position().y + 5 * living.getBbHeight() / 9) {
-                    living.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 60, 1));
-                    living.addEffect(new EffectInstance(ModStatusEffects.MISSHAPEN_LEGS.get(), 30));
-                }
-                if (pro.position().y > living.position().y + 15 * living.getBbHeight() / 18) {
-                    living.addEffect(new EffectInstance(Effects.BLINDNESS, 30, 1));
-                }
-        }
-
     }
-
-
 
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -86,6 +64,8 @@ public class GameplayHandler {
 
                             nbt.putString("owner",player.getName().getString());
                             nbt.putString("mode","attack");
+                            nbt.putInt("Ammo", (int) Math.round(Math.random()* CreamStarterItem.MAX_AMMO/2));
+
 
                             player.addItem(itemStack);
 
@@ -95,14 +75,20 @@ public class GameplayHandler {
                             }
                             delDupCS(player);
                         }
+
+
                     }else {
                         clearCS(player);
                         clearEntCS(player);
                     }
+                }else{
+                    clearCS(player);
+                    clearEntCS(player);
                 }
             });
         }
     }
+
 
 
 

@@ -5,6 +5,10 @@ import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandRelativeOffset;
 import com.github.standobyte.jojo.entity.stand.StandEntityType;
 
+import com.github.standobyte.jojo.entity.stand.stands.HierophantGreenEntity;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 
 public class CSEntity extends StandEntity {
@@ -19,8 +23,6 @@ public class CSEntity extends StandEntity {
     public boolean isPickable(){ return false;}
 
 	public StandRelativeOffset getDefaultOffsetFromUser() {return offsetDefault;}
-
-
 
 
 }

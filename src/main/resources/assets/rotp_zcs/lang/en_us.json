@@ -7,11 +7,15 @@
   "action.rotp_zcs.give_cs": "Summon Cream Starter",
   "action.rotp_zcs.cs_heal": "Auto healing",
   "action.rotp_zcs.cs_switch": "Switch Mode",
+  "action.rotp_zcs.cs_item_fill": "Fill Cream Starter",
+  "action.rotp_zcs.cs_entity_fill": "Fill Cream Starter",
+
 
   "rotp_zcs.subtitle.st_shot": "Meat Spray",
   "rotp_zcs.subtitle.hot_cs": "\"Cream Starter\"",
   "rotp_zcs.subtitle.cs_shot": "Spray",
   "rotp_zcs.subtitle.cs_shake": "Cream Starter shake",
+  "rotp_zcs.subtitle.cs_abs": "Meat refilling",
 
   "jojo.message.action_condition.no_cream": "No Cream Starter on Hand"
 

@@ -33,5 +33,8 @@ public class InitSounds {
             ()->new SoundEvent(new ResourceLocation(CreamStarterAddon.MOD_ID, "cs_shake"))
     );
 
+    public static final RegistryObject<SoundEvent> CS_REFILL = SOUNDS.register("cs_abs",
+            ()->new SoundEvent(new ResourceLocation(CreamStarterAddon.MOD_ID, "cs_abs"))
+    );
     static final OstSoundList HOT_OST = new OstSoundList(new ResourceLocation(CreamStarterAddon.MOD_ID, "cs_ost"), SOUNDS);
 }

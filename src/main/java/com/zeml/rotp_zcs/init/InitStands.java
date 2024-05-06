@@ -2,9 +2,7 @@ package com.zeml.rotp_zcs.init;
 
 import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.zeml.rotp_zcs.CreamStarterAddon;
-import com.zeml.rotp_zcs.action.ChangeMode;
-import com.zeml.rotp_zcs.action.GiveCreamStarter;
-import com.zeml.rotp_zcs.action.Healing;
+import com.zeml.rotp_zcs.action.*;
 import com.zeml.rotp_zcs.entity.stand.stands.CSEntity;
 import com.github.standobyte.jojo.init.power.stand.ModStandsInit;
 import com.github.standobyte.jojo.power.impl.stand.stats.StandStats;
@@ -41,6 +39,13 @@ public class InitStands {
                     .standUserWalkSpeed(1).standSound(InitSounds.CS_SHAKE)
                     .resolveLevelToUnlock(2)));
 
+    public static final RegistryObject<StandEntityAction> CS_ITEM_FILL = ACTIONS.register("cs_item_fill",
+            ()->new FillMeatItems(new StandEntityAction.Builder().holdType().standSound(InitSounds.CS_REFILL)));
+
+    public static final RegistryObject<StandEntityAction> CS_ENTITY_FILL = ACTIONS.register("cs_entity_fill",
+            ()->new FillingEntities(new StandEntityAction.Builder().resolveLevelToUnlock(2).holdType().standSound(InitSounds.CS_REFILL)));
+
+
     public static final EntityStandRegistryObject<EntityStandType<StandStats>, StandEntityType<CSEntity>> STAND_CREAM_STARTER =
             new EntityStandRegistryObject<>("cream_starter",
                     STANDS,
@@ -48,6 +53,7 @@ public class InitStands {
                             .color(0xF6F095)
                             .storyPartName(ModStandsInit.PART_7_NAME)
                             .leftClickHotbar(
+                                    CS_ITEM_FILL.get(),
                                     CS_CHANGE.get(),
                                     CS_HEAL.get()
                             )

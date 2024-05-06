@@ -24,6 +24,7 @@ public class CreamStarterAddon {
         InitItems.ITEMS.register(modEventBus);
         InitParticles.PARTICLES.register(modEventBus);
 
+        IntTags.iniTags();
     }
 
     public static Logger getLogger() {
