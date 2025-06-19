@@ -70,15 +70,6 @@ public class HealSprayEntity extends ModdedProjectileEntity {
             LivingEntity living = (LivingEntity) entity;
             living.heal(0.5F);
 
-            if (ClientUtil.canSeeStands()){
-                CrazyDiamondHeal.addParticlesAround(entity);
-                level.addParticle(ModParticles.CD_RESTORATION.get(),
-                        entity.position().x + (random.nextDouble() - 0.5) * 0.25,
-                        entity.position().y + (random.nextDouble() - 0.5) * 0.25,
-                        entity.position().z + (random.nextDouble() - 0.5) * 0.25,
-                        0, 0, 0);
-
-            }
 
         }
         if(entity instanceof SkeletonEntity){
