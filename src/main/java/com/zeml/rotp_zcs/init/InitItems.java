@@ -1,7 +1,10 @@
 package com.zeml.rotp_zcs.init;
 
 import com.zeml.rotp_zcs.CreamStarterAddon;
+import com.zeml.rotp_zcs.client.render.item.stand_skin.CreamStarterISTER;
+import com.zeml.rotp_zcs.client.render.item.stand_skin.CreamStarterModelISTER;
 import com.zeml.rotp_zcs.item.CreamStarterItem;
+import com.zeml.rotp_zcs.item.MeatMaskItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -13,6 +16,9 @@ public class InitItems {
 
 
     public static final RegistryObject<CreamStarterItem> CREAM_STARTER = ITEMS.register("cream_starter",
-            ()->new CreamStarterItem(new Item.Properties().stacksTo(1)));
+            ()->new CreamStarterItem(new Item.Properties().stacksTo(1).setISTER(()-> CreamStarterISTER::new)));
+
+    public static final RegistryObject<MeatMaskItem> MEAT_MASK = ITEMS.register("meat_dgs",
+            ()->new MeatMaskItem(new Item.Properties().stacksTo(1)));
 
 }

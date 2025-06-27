@@ -8,6 +8,7 @@ import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
+import com.zeml.rotp_zcs.capability.LivingDataProvider;
 import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitStands;
 import com.zeml.rotp_zcs.init.IntTags;
@@ -94,6 +95,7 @@ public class FillMeatItems extends StandEntityAction {
                         stack.getTag().putInt("Ammo",CreamStarterItem.MAX_AMMO);
                         i= player.inventory.getContainerSize();
                     }
+                    player.getCapability(LivingDataProvider.CAPABILITY).ifPresent(livingData -> livingData.setMeat(fill));
                     return true;
                 }
             }

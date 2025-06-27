@@ -3,13 +3,15 @@
   "stand.rotp_zcs.cream_starter": "Cream Starter",
 
   "item.rotp_zcs.cream_starter": "Cream Starter",
-  
+  "item.rotp_zcs.meat_dgs": "Meat disguise",
+
   "action.rotp_zcs.give_cs": "Summon Cream Starter",
   "action.rotp_zcs.cs_heal": "Auto healing",
   "action.rotp_zcs.cs_switch": "Switch Mode",
   "action.rotp_zcs.cs_item_fill": "Fill Cream Starter",
   "action.rotp_zcs.cs_entity_fill": "Fill Cream Starter",
-
+  "action.rotp_zcs.cs_deform": "Melting through blocks",
+  "action.rotp_zcs.cs_dsg_item": "Give meat disguise",
 
   "rotp_zcs.subtitle.st_shot": "Meat Spray",
   "rotp_zcs.subtitle.hot_cs": "\"Cream Starter\"",

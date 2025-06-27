@@ -186,5 +186,13 @@
 			"rotation": [0, 90, 0],
 			"translation": [0, 3.5, 0]
 		}
-	}
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"jojo:swing": 1
+			},
+			"model": "jojo:item/tommy_gun_flipped"
+		}
+	]
 }

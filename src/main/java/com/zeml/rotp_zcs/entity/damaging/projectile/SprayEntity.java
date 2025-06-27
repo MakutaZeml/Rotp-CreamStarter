@@ -5,6 +5,7 @@ import com.github.standobyte.jojo.action.stand.CrazyDiamondMisshapeBodyPart;
 import com.github.standobyte.jojo.client.particle.custom.CustomParticlesHelper;
 import com.github.standobyte.jojo.entity.damaging.projectile.ModdedProjectileEntity;
 import com.github.standobyte.jojo.init.ModStatusEffects;
+import com.github.standobyte.jojo.util.mc.MCUtil;
 import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import com.zeml.rotp_zcs.init.InitEntities;
 import com.zeml.rotp_zcs.init.InitParticles;
@@ -59,22 +60,26 @@ public class SprayEntity extends ModdedProjectileEntity {
 
     }
 
+
+/*
     @Override
-    protected void afterEntityHit(EntityRayTraceResult entityRayTraceResult, boolean entityHurt){
+    protected void onHitEntity(EntityRayTraceResult entityRayTraceResult) {
+        super.onHitEntity(entityRayTraceResult);
         Entity entity = entityRayTraceResult.getEntity();
+
         if(entity instanceof LivingEntity){
             LivingEntity living =  (LivingEntity) entity;
             if(this.position().y <= living.position().y+5*living.getBbHeight()/9){
                 living.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN,60,1));
                 living.addEffect(new EffectInstance(ModStatusEffects.MISSHAPEN_LEGS.get(),30));
             }
-            if(this.position().y > living.position().y+15*living.getBbHeight()/18){
+            if(Math.abs(this.position().y-entity.getEyeHeight())<.2){
                 living.addEffect(new EffectInstance(Effects.BLINDNESS,30,1));
+
             }
         }
     }
-
-
+ */
 
     @Override
     public int ticksLifespan() {

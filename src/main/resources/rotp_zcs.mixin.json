@@ -1,0 +1,15 @@
+{
+  "required": false,
+  "package": "com.zeml.rotp_zcs.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "SkinResourcePrepare"
+
+  ],
+  "injector": {
+    "defaultRequire": 1
+  },
+  "refmap": "rotp_zcs.mixins-refmap.json",
+  "mixins": [
+  ]
+}

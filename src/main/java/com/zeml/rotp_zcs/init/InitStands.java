@@ -46,6 +46,18 @@ public class InitStands {
             ()->new FillingEntities(new StandEntityAction.Builder().resolveLevelToUnlock(2).holdType().standSound(InitSounds.CS_REFILL)));
 
 
+    public static final RegistryObject<StandEntityAction> CS_DEFORM = ACTIONS.register("cs_deform", ()->
+            new DeformAction(new StandEntityAction.Builder().resolveLevelToUnlock(3).holdToFire(15,false)
+            ));
+
+    public static final RegistryObject<StandEntityAction> CS_DISGUISE_ITEM = ACTIONS.register("cs_dsg_item", ()->
+            new DisguiseItemAction(new StandEntityAction.Builder().resolveLevelToUnlock(2).holdToFire(15,false)
+            ));
+
+    public static final RegistryObject<StandEntityAction> CS_TARGET_DFORM = ACTIONS.register("cs_target_deform",
+            ()-> new TargetDeformAction(new StandEntityAction.Builder().resolveLevelToUnlock(4).standRecoveryTicks(2)
+                    .holdToFire(10,false)));
+
     public static final EntityStandRegistryObject<EntityStandType<StandStats>, StandEntityType<CSEntity>> STAND_CREAM_STARTER =
             new EntityStandRegistryObject<>("cream_starter",
                     STANDS,
@@ -55,10 +67,13 @@ public class InitStands {
                             .leftClickHotbar(
                                     CS_ITEM_FILL.get(),
                                     CS_CHANGE.get(),
-                                    CS_HEAL.get()
+                                    CS_HEAL.get(),
+                                    CS_DEFORM.get(),
+                                    CS_DISGUISE_ITEM.get()
                             )
                             .rightClickHotbar(
-                                    CS_GIVE.get()
+                                    CS_GIVE.get(),
+                                    CS_TARGET_DFORM.get()
                             )
                             .defaultStats(StandStats.class, new StandStats.Builder()
                                     .tier(2)
@@ -75,7 +90,7 @@ public class InitStands {
                             .build(),
 
                     InitEntities.ENTITIES,
-                    () -> new StandEntityType<CSEntity>(CSEntity::new, 0.1F, 0.1F)
+                    () -> new StandEntityType<CSEntity>(CSEntity::new, 1F, 1F)
                             .summonSound(InitSounds.CS_SUMMON)
                             .unsummonSound(InitSounds.CS_UNSUMMON))
                     .withDefaultStandAttributes();

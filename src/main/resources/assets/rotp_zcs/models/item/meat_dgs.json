@@ -1,0 +1,13 @@
+{
+	"parent": "minecraft:item/handheld",
+	"textures": {
+		"layer0": "rotp_zcs:item/meat_dgs"
+	},
+	"display": {
+		"head": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 13, 7],
+			"scale": [0, 0, 0]
+		}
+	}
+}

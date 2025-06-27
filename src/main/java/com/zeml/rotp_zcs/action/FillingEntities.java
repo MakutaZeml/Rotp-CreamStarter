@@ -7,6 +7,7 @@ import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mod.JojoModUtil;
+import com.zeml.rotp_zcs.capability.LivingDataProvider;
 import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitSounds;
 import com.zeml.rotp_zcs.init.IntTags;
@@ -44,16 +45,16 @@ public class FillingEntities extends StandEntityAction {
                 if(!(target instanceof ProjectileEntity) && !IntTags.NO_MEATABLE.contains(target.getType())){
                     LivingEntity living = (LivingEntity) target;
                     if(userPower.getUser().getItemInHand(Hand.MAIN_HAND).getItem() == InitItems.CREAM_STARTER.get() ){
-                        fillEntities(living,userPower.getUser().getItemInHand(Hand.MAIN_HAND));
+                        fillEntities(living,userPower.getUser().getItemInHand(Hand.MAIN_HAND), userPower.getUser());
                     } else if (userPower.getUser().getItemInHand(Hand.OFF_HAND).getItem() == InitItems.CREAM_STARTER.get()) {
-                        fillEntities(living,userPower.getUser().getItemInHand(Hand.OFF_HAND));
+                        fillEntities(living,userPower.getUser().getItemInHand(Hand.OFF_HAND), userPower.getUser());
                     }
                 }
             } else if (ray.getType() == RayTraceResult.Type.MISS) {
                 if(userPower.getUser().getItemInHand(Hand.MAIN_HAND).getItem() == InitItems.CREAM_STARTER.get() ){
-                    fillEntities(userPower.getUser(),userPower.getUser().getItemInHand(Hand.MAIN_HAND));
+                    fillEntities(userPower.getUser(),userPower.getUser().getItemInHand(Hand.MAIN_HAND), userPower.getUser());
                 } else if (userPower.getUser().getItemInHand(Hand.OFF_HAND).getItem() == InitItems.CREAM_STARTER.get()) {
-                    fillEntities(userPower.getUser(),userPower.getUser().getItemInHand(Hand.OFF_HAND));
+                    fillEntities(userPower.getUser(),userPower.getUser().getItemInHand(Hand.OFF_HAND),userPower.getUser());
                 }
 
             }
@@ -61,7 +62,7 @@ public class FillingEntities extends StandEntityAction {
     }
 
 
-    private void fillEntities(LivingEntity entity, ItemStack stack){
+    private void fillEntities(LivingEntity entity, ItemStack stack, LivingEntity user){
         int fill = stack.getTag().getInt("Ammo")+Math.round(entity.getHealth());
         stack.getTag().putInt("Ammo",fill);
         if(stack.getTag().getInt("Ammo")>CreamStarterItem.MAX_AMMO){
@@ -71,6 +72,7 @@ public class FillingEntities extends StandEntityAction {
                 entity.hurt(DamageSource.GENERIC,1F);
             }
         }
+        user.getCapability(LivingDataProvider.CAPABILITY).ifPresent(livingData -> livingData.setMeat(fill));
     }
 
 

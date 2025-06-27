@@ -4,6 +4,7 @@ import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.power.impl.stand.type.StandType;
 import com.zeml.rotp_zcs.CreamStarterAddon;
+import com.zeml.rotp_zcs.capability.LivingDataProvider;
 import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitStands;
 import com.zeml.rotp_zcs.item.CreamStarterItem;
@@ -64,9 +65,12 @@ public class GameplayHandler {
 
                             nbt.putString("owner",player.getName().getString());
                             nbt.putString("mode","attack");
-                            nbt.putInt("Ammo", (int) Math.round(Math.random()* CreamStarterItem.MAX_AMMO/2));
+                            nbt.putInt("Ammo", player.getCapability(LivingDataProvider.CAPABILITY).map(livingData -> livingData.getMeat()).orElse(CreamStarterItem.MAX_AMMO/2));
 
-
+                            StandEntity stand = (StandEntity) standPower.getStandManifestation();
+                            if(stand.getStandSkin().isPresent()){
+                                nbt.putString("standSkin", stand.getStandSkin().get().toString());
+                            }
                             player.addItem(itemStack);
 
                         }else {

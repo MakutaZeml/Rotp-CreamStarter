@@ -6,6 +6,7 @@ import com.github.standobyte.jojo.action.stand.StandEntityAction;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.entity.stand.StandEntityTask;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
+import com.zeml.rotp_zcs.capability.LivingDataProvider;
 import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitSounds;
 import net.minecraft.entity.LivingEntity;
@@ -34,11 +35,11 @@ public class Healing extends StandEntityAction {
         if(!world.isClientSide){
             boolean use = true;
             if(userPower.getUser().getItemInHand(Hand.MAIN_HAND).getItem() == InitItems.CREAM_STARTER.get()){
-                consumeAmmo(userPower.getUser().getItemInHand(Hand.MAIN_HAND));
+                consumeAmmo(userPower.getUser().getItemInHand(Hand.MAIN_HAND), userPower.getUser());
 
 
             } else if (userPower.getUser().getItemInHand(Hand.OFF_HAND).getItem() == InitItems.CREAM_STARTER.get()){
-                consumeAmmo(userPower.getUser().getItemInHand(Hand.OFF_HAND));
+                consumeAmmo(userPower.getUser().getItemInHand(Hand.OFF_HAND), userPower.getUser());
             }
 
             if(userPower.getStamina() >9){
@@ -62,7 +63,7 @@ public class Healing extends StandEntityAction {
         return false;
     }
 
-    private boolean consumeAmmo(ItemStack cream) {
+    private boolean consumeAmmo(ItemStack cream, LivingEntity user) {
         int ammo = getAmmo(cream);
         if (ammo < 0) {
             cream.getTag().putInt("Ammo", 0);
@@ -70,6 +71,8 @@ public class Healing extends StandEntityAction {
         }
         if (ammo > 0) {
             cream.getTag().putInt("Ammo", --ammo);
+            int finalAmmo = ammo;
+            user.getCapability(LivingDataProvider.CAPABILITY).ifPresent(livingData -> livingData.setMeat(finalAmmo));
             return true;
         }
         return false;

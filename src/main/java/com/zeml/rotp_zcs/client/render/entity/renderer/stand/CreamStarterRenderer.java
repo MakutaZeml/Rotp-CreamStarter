@@ -12,6 +12,7 @@ public class CreamStarterRenderer extends StandEntityRenderer<CSEntity, StarterC
 
     public CreamStarterRenderer(EntityRendererManager renderManager) {
         super(renderManager, new StarterCreamModel(), new ResourceLocation(CreamStarterAddon.MOD_ID, "textures/entity/stand/cream_starter.png"), 0);
+
     }
 
 }

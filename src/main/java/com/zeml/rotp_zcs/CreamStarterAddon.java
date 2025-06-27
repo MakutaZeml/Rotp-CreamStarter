@@ -1,6 +1,8 @@
 package com.zeml.rotp_zcs;
 
+import com.zeml.rotp_zcs.capability.CapabilityHandler;
 import com.zeml.rotp_zcs.init.*;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,8 +25,13 @@ public class CreamStarterAddon {
         InitStands.STANDS.register(modEventBus);
         InitItems.ITEMS.register(modEventBus);
         InitParticles.PARTICLES.register(modEventBus);
+        modEventBus.addListener(this::preInit);
 
+    }
+
+    private void preInit(FMLCommonSetupEvent event){
         IntTags.iniTags();
+        CapabilityHandler.commonSetupRegister();
     }
 
     public static Logger getLogger() {

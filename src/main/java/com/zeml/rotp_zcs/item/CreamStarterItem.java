@@ -1,6 +1,8 @@
 package com.zeml.rotp_zcs.item;
 
 import com.github.standobyte.jojo.entity.damaging.projectile.HamonBubbleEntity;
+import com.zeml.rotp_zcs.capability.LivingData;
+import com.zeml.rotp_zcs.capability.LivingDataProvider;
 import com.zeml.rotp_zcs.entity.damaging.projectile.HealSprayEntity;
 import com.zeml.rotp_zcs.entity.damaging.projectile.SprayEntity;
 import com.zeml.rotp_zcs.init.InitSounds;
@@ -72,6 +74,7 @@ public class CreamStarterItem extends Item {
             PlayerEntity player = (PlayerEntity) entity;
             player.getCooldowns().addCooldown(this,20);
         }
+        entity.getCapability(LivingDataProvider.CAPABILITY).ifPresent(livingData -> livingData.setMeat(getMeat(stack)));
     }
 
 
@@ -93,6 +96,10 @@ public class CreamStarterItem extends Item {
             return true;
         }
         return false;
+    }
+
+    private int getMeat(ItemStack gun) {
+        return gun.getOrCreateTag().getInt("Ammo");
     }
 
     private static int getAmmo(ItemStack gun) {

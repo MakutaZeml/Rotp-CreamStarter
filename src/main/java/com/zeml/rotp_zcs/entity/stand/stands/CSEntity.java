@@ -6,6 +6,7 @@ import com.github.standobyte.jojo.entity.stand.StandRelativeOffset;
 import com.github.standobyte.jojo.entity.stand.StandEntityType;
 
 import com.github.standobyte.jojo.entity.stand.stands.HierophantGreenEntity;
+import com.zeml.rotp_zcs.CreamStarterAddon;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -18,6 +19,12 @@ public class CSEntity extends StandEntity {
         unsummonOffset = getDefaultOffsetFromUser().copy();
     }
     private final StandRelativeOffset offsetDefault = StandRelativeOffset.withYOffset(0, 0, 0);
+
+    @Override
+    public void tick() {
+        super.tick();
+        CreamStarterAddon.LOGGER.debug("Stand Skin {}", this.getStandSkin().toString());
+    }
 
     @Override
     public boolean isPickable(){ return false;}
