@@ -3,7 +3,11 @@
   "package": "com.zeml.rotp_zcs.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "SkinResourcePrepare"
+    "SkinResourcePrepare",
+    "PlayerRendererMixin"
+
+  ],
+  "server": [
 
   ],
   "injector": {
@@ -11,5 +15,6 @@
   },
   "refmap": "rotp_zcs.mixins-refmap.json",
   "mixins": [
+    "LivingEntityMixin"
   ]
 }

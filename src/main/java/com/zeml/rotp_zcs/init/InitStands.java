@@ -1,8 +1,10 @@
 package com.zeml.rotp_zcs.init;
 
-import com.github.standobyte.jojo.action.stand.StandEntityAction;
+import com.github.standobyte.jojo.action.stand.*;
+import com.github.standobyte.jojo.entity.stand.TargetHitPart;
 import com.zeml.rotp_zcs.CreamStarterAddon;
 import com.zeml.rotp_zcs.action.*;
+import com.zeml.rotp_zcs.action.punch.DeformTargetAction;
 import com.zeml.rotp_zcs.entity.stand.stands.CSEntity;
 import com.github.standobyte.jojo.init.power.stand.ModStandsInit;
 import com.github.standobyte.jojo.power.impl.stand.stats.StandStats;
@@ -43,7 +45,8 @@ public class InitStands {
             ()->new FillMeatItems(new StandEntityAction.Builder().holdType().standSound(InitSounds.CS_REFILL)));
 
     public static final RegistryObject<StandEntityAction> CS_ENTITY_FILL = ACTIONS.register("cs_entity_fill",
-            ()->new FillingEntities(new StandEntityAction.Builder().resolveLevelToUnlock(2).holdType().standSound(InitSounds.CS_REFILL)));
+            ()->new FillingEntities(new StandEntityAction.Builder().resolveLevelToUnlock(1).holdType().standSound(InitSounds.CS_REFILL)
+                    .shiftVariationOf(CS_ITEM_FILL)));
 
 
     public static final RegistryObject<StandEntityAction> CS_DEFORM = ACTIONS.register("cs_deform", ()->
@@ -54,9 +57,11 @@ public class InitStands {
             new DisguiseItemAction(new StandEntityAction.Builder().resolveLevelToUnlock(2).holdToFire(15,false)
             ));
 
-    public static final RegistryObject<StandEntityAction> CS_TARGET_DFORM = ACTIONS.register("cs_target_deform",
-            ()-> new TargetDeformAction(new StandEntityAction.Builder().resolveLevelToUnlock(4).standRecoveryTicks(2)
-                    .holdToFire(10,false)));
+
+    public static final RegistryObject<StandEntityAction> PUT_OBJET = ACTIONS.register("cs_item", ()->
+            new PutItemAction(new StandEntityAction.Builder().resolveLevelToUnlock(4).holdToFire(15,false)
+                    .staminaCost(100)
+            ));
 
     public static final EntityStandRegistryObject<EntityStandType<StandStats>, StandEntityType<CSEntity>> STAND_CREAM_STARTER =
             new EntityStandRegistryObject<>("cream_starter",
@@ -73,7 +78,7 @@ public class InitStands {
                             )
                             .rightClickHotbar(
                                     CS_GIVE.get(),
-                                    CS_TARGET_DFORM.get()
+                                    PUT_OBJET.get()
                             )
                             .defaultStats(StandStats.class, new StandStats.Builder()
                                     .tier(2)

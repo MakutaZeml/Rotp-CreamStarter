@@ -78,7 +78,7 @@ public class Healing extends StandEntityAction {
         return false;
     }
 
-    private static int getAmmo(ItemStack cream) {
+    public static int getAmmo(ItemStack cream) {
         return cream.getOrCreateTag().getInt("Ammo");
     }
 

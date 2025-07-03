@@ -4,6 +4,8 @@ import com.github.standobyte.jojo.client.ClientSetup;
 import com.github.standobyte.jojo.client.ClientUtil;
 import com.github.standobyte.jojo.client.particle.HamonSparkParticle;
 import com.zeml.rotp_zcs.CreamStarterAddon;
+import com.zeml.rotp_zcs.client.render.entity.model.CreamedModel;
+import com.zeml.rotp_zcs.client.render.entity.renderer.DisguiseLayer;
 import com.zeml.rotp_zcs.client.render.entity.renderer.damaging.projectile.SprayHealRenderer;
 import com.zeml.rotp_zcs.client.render.entity.renderer.damaging.projectile.SprayRenderer;
 import com.zeml.rotp_zcs.client.render.entity.renderer.stand.CreamStarterRenderer;
@@ -15,7 +17,11 @@ import com.zeml.rotp_zcs.init.InitEntities;
 import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitParticles;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -44,7 +50,11 @@ public class ClientInit {
         RenderingRegistry.registerEntityRenderingHandler(InitEntities.CREAM_SPRAY.get(), SprayRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(InitEntities.CREAM_HEAL.get(), SprayHealRenderer::new);
 
-
+        event.enqueueWork(()->{
+            Map<String, PlayerRenderer> skinMap = mc.getEntityRenderDispatcher().getSkinMap();
+            addLayers(skinMap.get("default"), false);
+            addLayers(skinMap.get("slim"), true);
+        });
     }
 
 
@@ -65,6 +75,16 @@ public class ClientInit {
     public static void onModelBake(ModelBakeEvent event){
         Map<ResourceLocation, IBakedModel> registry = event.getModelRegistry();
         ClientSetup.registerCustomBakedModel(InitItems.CREAM_STARTER.get().getRegistryName(),registry, model -> new CreamStarterModelISTER(model).refreshOverrides(registry));
+    }
+
+
+    private static void addLayers(PlayerRenderer renderer, boolean slim) {
+        addBipedLayers(renderer);
+        renderer.addLayer(new DisguiseLayer<>(renderer, new CreamedModel<>(0,slim),slim));
+    }
+
+    private static <T extends LivingEntity, M extends BipedModel<T>> void addBipedLayers(LivingRenderer<T, M> renderer) {
+
     }
 
 }

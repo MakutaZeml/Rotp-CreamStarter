@@ -1,7 +1,9 @@
 package com.zeml.rotp_zcs;
 
+import com.github.standobyte.jojo.init.ModStatusEffects;
 import com.zeml.rotp_zcs.capability.CapabilityHandler;
 import com.zeml.rotp_zcs.init.*;
+import com.zeml.rotp_zcs.network.ModNetwork;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,6 +34,8 @@ public class CreamStarterAddon {
     private void preInit(FMLCommonSetupEvent event){
         IntTags.iniTags();
         CapabilityHandler.commonSetupRegister();
+        ModNetwork.init();
+
     }
 
     public static Logger getLogger() {

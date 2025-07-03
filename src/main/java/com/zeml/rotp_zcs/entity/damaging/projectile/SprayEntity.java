@@ -5,10 +5,15 @@ import com.github.standobyte.jojo.action.stand.CrazyDiamondMisshapeBodyPart;
 import com.github.standobyte.jojo.client.particle.custom.CustomParticlesHelper;
 import com.github.standobyte.jojo.entity.damaging.projectile.ModdedProjectileEntity;
 import com.github.standobyte.jojo.init.ModStatusEffects;
+import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mc.MCUtil;
+import com.github.standobyte.jojo.util.mc.damage.IModdedDamageSource;
+import com.github.standobyte.jojo.util.mc.damage.ModdedDamageSourceWrapper;
 import com.github.standobyte.jojo.util.mod.JojoModUtil;
+import com.zeml.rotp_zcs.entity.stand.stands.CSEntity;
 import com.zeml.rotp_zcs.init.InitEntities;
 import com.zeml.rotp_zcs.init.InitParticles;
+import com.zeml.rotp_zcs.init.IntTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -21,6 +26,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -53,19 +59,37 @@ public class SprayEntity extends ModdedProjectileEntity {
         }
 
         if(this.shooter != null){
-            if(this.distanceTo(shooter)>9){
+            if(this.distanceTo(shooter)>10){
                 this.remove();
             }
         }
 
     }
 
+    @Override
+    protected DamageSource getDamageSource(LivingEntity owner) {
+        DamageSource damageSource = this.getOwner() != null? new IndirectEntityDamageSource("cs_rotten",this, this.getOwner()):
+                new IndirectEntityDamageSource("cs_rotten",this,null);
+        damageSource = new ModdedDamageSourceWrapper(damageSource);
+        ((IModdedDamageSource) damageSource).setKnockbackReduction(this.knockbackMultiplier());
+        return damageSource;
+    }
 
-/*
     @Override
     protected void onHitEntity(EntityRayTraceResult entityRayTraceResult) {
-        super.onHitEntity(entityRayTraceResult);
         Entity entity = entityRayTraceResult.getEntity();
+        if(!IntTags.NO_MEATABLE.contains(entity.getType())){
+            super.onHitEntity(entityRayTraceResult);
+            if(this.getOwner() != null){
+                IStandPower.getStandPowerOptional(this.getOwner()).ifPresent(standPower -> {
+                    if (standPower.getStandManifestation() instanceof CSEntity){
+                        CSEntity cs = (CSEntity) standPower.getStandManifestation();
+                        //cs.addFinisherMeter(.035F,10);
+                    }
+                });
+            }
+
+        }
 
         if(entity instanceof LivingEntity){
             LivingEntity living =  (LivingEntity) entity;
@@ -79,7 +103,7 @@ public class SprayEntity extends ModdedProjectileEntity {
             }
         }
     }
- */
+
 
     @Override
     public int ticksLifespan() {
@@ -88,7 +112,7 @@ public class SprayEntity extends ModdedProjectileEntity {
 
     @Override
     protected float getBaseDamage() {
-        return 1;
+        return 0.7F;
     }
 
     @Override
@@ -98,11 +122,11 @@ public class SprayEntity extends ModdedProjectileEntity {
 
     @Override
     public boolean standDamage() {
-        return true;
+        return false;
     }
 
     @Override
     protected float knockbackMultiplier() {
-        return 0.1F;
+        return 0.05F;
     }
 }

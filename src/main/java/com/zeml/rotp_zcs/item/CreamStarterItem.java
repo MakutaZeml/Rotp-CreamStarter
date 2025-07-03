@@ -1,12 +1,15 @@
 package com.zeml.rotp_zcs.item;
 
 import com.github.standobyte.jojo.entity.damaging.projectile.HamonBubbleEntity;
+import com.github.standobyte.jojo.entity.stand.StandEntity;
+import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import com.zeml.rotp_zcs.capability.LivingData;
 import com.zeml.rotp_zcs.capability.LivingDataProvider;
 import com.zeml.rotp_zcs.entity.damaging.projectile.HealSprayEntity;
 import com.zeml.rotp_zcs.entity.damaging.projectile.SprayEntity;
 import com.zeml.rotp_zcs.init.InitSounds;
 import com.zeml.rotp_zcs.init.IntTags;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,6 +19,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 public class CreamStarterItem extends Item {
@@ -28,24 +34,34 @@ public class CreamStarterItem extends Item {
     public void onUseTick(World world, LivingEntity entity, ItemStack stack, int remainingTicks){
         boolean shot = stack.getTag().getString("mode").equals("attack");
         if(!world.isClientSide){
-
             if(remainingTicks <=1 || stack.getTag().getInt("Ammo")<=0){
                 entity.releaseUsingItem();
                 return;
             }
                 if(shot){
+                    RayTraceResult[] rayTraceResults = JojoModUtil.rayTraceMultipleEntities(entity,4, target ->target.isAlive() && !IntTags.NO_MEATABLE.contains(target.getType()) ,.5,0);
+                    for (RayTraceResult rayTraceResult:rayTraceResults){
+                        if(rayTraceResult.getType() == RayTraceResult.Type.ENTITY){
+                            if(((EntityRayTraceResult) rayTraceResult).getEntity() instanceof LivingEntity ){
+                                LivingEntity living = (LivingEntity) ((EntityRayTraceResult) rayTraceResult).getEntity();
+                            }
+
+                        }
+                    }
+
                     SprayEntity spray = new SprayEntity(entity, world);
                     spray.shootFromRotation(entity,5,0.5F);
+                    spray.setOwner(entity);
                     world.addFreshEntity(spray);
 
                 }else {
                     HealSprayEntity spray = new HealSprayEntity(entity, world);
                     spray.shootFromRotation(entity,5,0.5F);
                     world.addFreshEntity(spray);
-                }
-                world.playSound(null,entity.blockPosition(), InitSounds.CS_SPRAY.get(), SoundCategory.PLAYERS,1,1);
-                consumeAmmo(stack);
 
+                }
+                consumeAmmo(stack);
+                world.playSound(null,entity.blockPosition(), InitSounds.CS_SPRAY.get(), SoundCategory.PLAYERS,1,1);
                 if(stack.getTag().getInt("Ammo")==0){
 
                 }
@@ -53,8 +69,15 @@ public class CreamStarterItem extends Item {
         }
     }
 
-
-
+    @Override
+    public ITextComponent getName(ItemStack stack) {
+        if(stack.getTag() != null){
+            boolean shot = stack.getTag().getString("mode").equals("attack");
+            TranslationTextComponent mode = new TranslationTextComponent(shot?"rotp_zcs.mode.attack":"rotp_zcs.mode.heal");
+            return new TranslationTextComponent(this.getDescriptionId(stack),mode);
+        }
+        return new TranslationTextComponent(this.getDescriptionId(stack));
+    }
 
     @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
@@ -130,4 +153,6 @@ public class CreamStarterItem extends Item {
     public UseAction getUseAnimation(ItemStack stack) {
         return UseAction.BOW;
     }
+
+
 }

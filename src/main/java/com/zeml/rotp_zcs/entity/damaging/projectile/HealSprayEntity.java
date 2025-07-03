@@ -8,6 +8,7 @@ import com.github.standobyte.jojo.init.ModParticles;
 import com.zeml.rotp_zcs.init.InitEntities;
 import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitParticles;
+import com.zeml.rotp_zcs.init.IntTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -29,9 +30,9 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class HealSprayEntity extends ModdedProjectileEntity {
-    LivingEntity shooter;
+    private LivingEntity shooter;
     public HealSprayEntity(LivingEntity shooter, World world){
-        super(InitEntities.CREAM_SPRAY.get(),shooter, world);
+        super(InitEntities.CREAM_HEAL.get(),shooter, world);
         this.shooter = shooter;
     }
     public HealSprayEntity(EntityType<HealSprayEntity> spray, World world) {
@@ -66,7 +67,7 @@ public class HealSprayEntity extends ModdedProjectileEntity {
         Entity entity = entityRayTraceResult.getEntity();
         if(entity instanceof LivingEntity && !(entity instanceof IronGolemEntity) &&
                 !(entity instanceof SnowGolemEntity) && !(entity instanceof SkeletonEntity) &&
-                !(entity instanceof WitherSkeletonEntity) && !(entity instanceof SkeletonHorseEntity) ){
+                !(entity instanceof WitherSkeletonEntity) && !(entity instanceof SkeletonHorseEntity) && !IntTags.NO_MEATABLE.contains(entity.getType())){
             LivingEntity living = (LivingEntity) entity;
             living.heal(0.5F);
 
@@ -138,7 +139,7 @@ public class HealSprayEntity extends ModdedProjectileEntity {
 
     @Override
     public boolean standDamage() {
-        return true;
+        return false;
     }
 
     @Override

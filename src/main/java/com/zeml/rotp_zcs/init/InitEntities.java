@@ -16,10 +16,10 @@ public class InitEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, CreamStarterAddon.MOD_ID);
 
     public static final RegistryObject<EntityType<SprayEntity>> CREAM_SPRAY = ENTITIES.register("spray_bullet",
-            () -> EntityType.Builder.<SprayEntity>of(SprayEntity::new, EntityClassification.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).setUpdateInterval(20).fireImmune()
+            () -> EntityType.Builder.<SprayEntity>of(SprayEntity::new, EntityClassification.MISC).sized(0.01F, 0.01F).clientTrackingRange(4).setUpdateInterval(20).fireImmune()
                     .build(new ResourceLocation(JojoMod.MOD_ID, "spray_bullet").toString()));
 
     public static final RegistryObject<EntityType<HealSprayEntity>> CREAM_HEAL = ENTITIES.register("heal_spray",
-            () -> EntityType.Builder.<HealSprayEntity>of(HealSprayEntity::new, EntityClassification.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).setUpdateInterval(20).fireImmune()
+            () -> EntityType.Builder.<HealSprayEntity>of(HealSprayEntity::new, EntityClassification.MISC).sized(0.01F, 0.01F).clientTrackingRange(4).setUpdateInterval(20).fireImmune()
                     .build(new ResourceLocation(JojoMod.MOD_ID, "heal_spray").toString()));
 }
