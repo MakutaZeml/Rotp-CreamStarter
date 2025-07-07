@@ -1,8 +1,11 @@
 package com.zeml.rotp_zcs.item;
 
+import com.github.standobyte.jojo.JojoModConfig;
 import com.github.standobyte.jojo.util.mc.MCUtil;
+import com.github.standobyte.jojo.util.mod.JojoModUtil;
 import com.zeml.rotp_zcs.CreamStarterAddon;
 import com.zeml.rotp_zcs.util.CreamStarterUtil;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,9 +38,13 @@ public class MeatMaskItem extends Item {
     public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity player, LivingEntity living, Hand hand) {
         if(living instanceof PlayerEntity){
             this.setTargetType(itemStack,living.getName().getString(),1,Optional.of(living.getUUID()));
-            NBTUtil.writeGameProfile(itemStack.getOrCreateTag(),player.getGameProfile());
+            PlayerEntity targetPlayer = (PlayerEntity) living;
+            NBTUtil.writeGameProfile(itemStack.getOrCreateTag(),targetPlayer.getGameProfile());
+            this.setHostile(itemStack, JojoModUtil.isPlayerJojoVampiric(targetPlayer) && !JojoModConfig.getCommonConfigInstance(false).vampiresAggroMobs.get());
+
         }else {
             this.setTargetType(itemStack,living.getType().getRegistryName().toString(),2, Optional.empty());
+            this.setHostile(itemStack,living.getType().getCategory() == EntityClassification.MONSTER);
 
         }
         return super.interactLivingEntity(itemStack, player, living, hand);

@@ -22,6 +22,7 @@
 
   "jojo.message.action_condition.no_cream": "No Cream Starter on Hand",
   "jojo.message.action_condition.no_cream.main":"You need Cream Starter in your main hand",
+  "jojo.message.action_condition.no_meat": "You don't have enough meat in Cream Starter",
 
   "death.attack.cs_rotten": "%s's meat has rotted",
   "death.attack.cs_rotten.player": "%s's meat has been rotted by %s",

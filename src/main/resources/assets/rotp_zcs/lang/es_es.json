@@ -21,7 +21,8 @@
   "rotp_zcs.subtitle.cs_abs": "Rellenado de carne",
 
   "jojo.message.action_condition.no_cream": "No tienes Cream Starter a mano",
-  "jojo.message.action_condition.no_cream.main":"Necesitas a Cream Starter en tu mano principal",
+  "jojo.message.action_condition.no_cream.main": "Necesitas a Cream Starter en tu mano principal",
+  "jojo.message.action_condition.no_meat": "No tienes carne suficiente en Cream Starter",
 
   "death.attack.cs_rotten": "Se ha podrido la carne de %s",
   "death.attack.cs_rotten.player": "Se ha podrido la carne de %s por culpa de %s",

@@ -11,6 +11,8 @@ import com.zeml.rotp_zcs.init.InitItems;
 import com.zeml.rotp_zcs.init.InitSounds;
 import com.zeml.rotp_zcs.init.IntTags;
 import net.minecraft.block.AirBlock;
+import net.minecraft.block.FenceBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
 import net.minecraft.util.Direction;
@@ -47,6 +49,12 @@ public class DeformAction extends StandEntityAction {
             float delta = 0;
             if(!world.getBlockState(target.below()).getMaterial().isSolid() && !Direction.UP.isFacingAngle(1F)){
                 delta -= 1;
+                if(world.getBlockState(target.below().below()).getBlock() instanceof FenceBlock || world.getBlockState(target.below().below()).getBlock() instanceof WallBlock){
+                    delta +=.5F;
+                }
+            }
+            if(world.getBlockState(target.below()).getBlock() instanceof FenceBlock || world.getBlockState(target.below()).getBlock() instanceof WallBlock){
+                delta += .5F;
             }
 
             user.teleportTo(vector3d.x,target.getY()+delta, vector3d.z);

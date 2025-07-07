@@ -25,7 +25,10 @@ public class DisguiseItemAction extends StandEntityAction {
     protected ActionConditionResult checkHeldItems(LivingEntity user, IStandPower power) {
         if(user.getItemInHand(Hand.MAIN_HAND).getItem() instanceof CreamStarterItem){
             if(user.getItemInHand(Hand.OFF_HAND).isEmpty()){
-                return ActionConditionResult.POSITIVE;
+                if( user.getItemInHand(Hand.MAIN_HAND).getTag().getInt("Ammo")>=50){
+                    return ActionConditionResult.POSITIVE;
+                }
+                return conditionMessage("");
             }
             return conditionMessage("hand");
         }

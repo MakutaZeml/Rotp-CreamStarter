@@ -42,7 +42,7 @@ public class FillingEntities extends StandEntityAction {
                     3,world,standEntity,e->!(e.is(standEntity) || e.is(standEntity.getUser())),0,0);
             if(ray.getType() == RayTraceResult.Type.ENTITY){
                 Entity target =  ((EntityRayTraceResult) ray).getEntity();
-                if(!(target instanceof ProjectileEntity) && !IntTags.NO_MEATABLE.contains(target.getType())){
+                if(target instanceof LivingEntity && !IntTags.NO_MEATABLE.contains(target.getType())){
                     LivingEntity living = (LivingEntity) target;
                     if(userPower.getUser().getItemInHand(Hand.MAIN_HAND).getItem() == InitItems.CREAM_STARTER.get() ){
                         fillEntities(living,userPower.getUser().getItemInHand(Hand.MAIN_HAND), userPower.getUser());

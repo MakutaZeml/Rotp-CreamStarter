@@ -106,7 +106,6 @@ public class HealSprayEntity extends ModdedProjectileEntity {
         }
 
         if(entity instanceof SkeletonHorseEntity){
-
             if(ticksTrans(this.shooter,30)){
                 ZombieHorseEntity zombieHorse = new ZombieHorseEntity(EntityType.ZOMBIE_HORSE ,entity.level);
                 zombieHorse.setTamed(true);

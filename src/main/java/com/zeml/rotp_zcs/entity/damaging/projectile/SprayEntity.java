@@ -112,7 +112,7 @@ public class SprayEntity extends ModdedProjectileEntity {
 
     @Override
     protected float getBaseDamage() {
-        return 0.7F;
+        return 0.85F;
     }
 
     @Override

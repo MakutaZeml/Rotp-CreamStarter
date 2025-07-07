@@ -1,5 +1,6 @@
 package com.zeml.rotp_zcs.util;
 
+import com.github.standobyte.jojo.JojoModConfig;
 import com.github.standobyte.jojo.entity.stand.StandEntity;
 import com.github.standobyte.jojo.power.impl.nonstand.type.vampirism.VampirismUtil;
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
@@ -71,7 +72,7 @@ public class GameplayHandler {
                         CompoundNBT nbt = stack.getOrCreateTag();
                         NBTUtil.writeGameProfile(nbt,((PlayerEntity)sourceEntity).getGameProfile());
                         meatMaskItem.setTargetType(stack,sourceEntity.getName().getString(),1, Optional.of(sourceEntity.getUUID()));
-                        meatMaskItem.setHostile(stack, JojoModUtil.isPlayerJojoVampiric((PlayerEntity) sourceEntity));
+                        meatMaskItem.setHostile(stack, JojoModUtil.isPlayerJojoVampiric((PlayerEntity) sourceEntity) && !JojoModConfig.getCommonConfigInstance(false).vampiresAggroMobs.get());
                     } else if (!(sourceEntity instanceof StandEntity)) {
                         meatMaskItem.setTargetType(stack,sourceEntity.getType().getRegistryName().toString(),2, Optional.empty());
                         meatMaskItem.setHostile(stack,sourceEntity.getType().getCategory() == EntityClassification.MONSTER);

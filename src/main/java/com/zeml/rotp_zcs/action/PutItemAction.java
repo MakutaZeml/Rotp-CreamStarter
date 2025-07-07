@@ -16,6 +16,7 @@ import com.github.standobyte.jojo.power.impl.nonstand.type.vampirism.VampirismUt
 import com.github.standobyte.jojo.power.impl.stand.IStandPower;
 import com.github.standobyte.jojo.util.mc.damage.DamageUtil;
 import com.zeml.rotp_zcs.init.InitSounds;
+import com.zeml.rotp_zcs.init.IntTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -85,7 +86,7 @@ public class PutItemAction extends StandEntityAction {
     protected ActionConditionResult checkSpecificConditions(LivingEntity user, IStandPower power, ActionTarget target) {
         if (power.isActive() && target.getEntity() instanceof LivingEntity){
             ItemStack item = user.getOffhandItem();
-            return ActionConditionResult.noMessage(!item.isEmpty() && canUseItem(item));
+            return ActionConditionResult.noMessage(!item.isEmpty() && canUseItem(item) && !IntTags.NO_MEATABLE.contains(target.getEntity().getType()));
         }
         return ActionConditionResult.NEGATIVE;
     }
