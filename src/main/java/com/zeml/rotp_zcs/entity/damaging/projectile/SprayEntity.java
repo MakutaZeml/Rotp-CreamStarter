@@ -91,17 +91,7 @@ public class SprayEntity extends ModdedProjectileEntity {
 
         }
 
-        if(entity instanceof LivingEntity){
-            LivingEntity living =  (LivingEntity) entity;
-            if(this.position().y <= living.position().y+5*living.getBbHeight()/9){
-                living.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN,60,1));
-                living.addEffect(new EffectInstance(ModStatusEffects.MISSHAPEN_LEGS.get(),30));
-            }
-            if(Math.abs(this.position().y-entity.getEyeHeight())<.2){
-                living.addEffect(new EffectInstance(Effects.BLINDNESS,30,1));
 
-            }
-        }
     }
 
 

@@ -1,10 +1,9 @@
 package com.zeml.rotp_zcs.init;
 
 import com.github.standobyte.jojo.action.stand.*;
-import com.github.standobyte.jojo.entity.stand.TargetHitPart;
 import com.zeml.rotp_zcs.CreamStarterAddon;
 import com.zeml.rotp_zcs.action.*;
-import com.zeml.rotp_zcs.action.punch.DeformTargetAction;
+import com.zeml.rotp_zcs.action.DeformTargetAction;
 import com.zeml.rotp_zcs.entity.stand.stands.CSEntity;
 import com.github.standobyte.jojo.init.power.stand.ModStandsInit;
 import com.github.standobyte.jojo.power.impl.stand.stats.StandStats;
@@ -53,6 +52,10 @@ public class InitStands {
             new DeformAction(new StandEntityAction.Builder().resolveLevelToUnlock(3).holdToFire(15,false)
             ));
 
+    public static final RegistryObject<StandEntityAction> CS_DEFORM_TARGET = ACTIONS.register("cs_def", ()->
+            new DeformTargetAction(new StandEntityAction.Builder().resolveLevelToUnlock(3)
+                    .holdToFire(10,false).swingHand()
+            ));
     public static final RegistryObject<StandEntityAction> CS_DISGUISE_ITEM = ACTIONS.register("cs_dsg_item", ()->
             new DisguiseItemAction(new StandEntityAction.Builder().resolveLevelToUnlock(2).holdToFire(15,false)
             ));
@@ -78,7 +81,8 @@ public class InitStands {
                             )
                             .rightClickHotbar(
                                     CS_GIVE.get(),
-                                    PUT_OBJET.get()
+                                    PUT_OBJET.get(),
+                                    CS_DEFORM_TARGET.get()
                             )
                             .defaultStats(StandStats.class, new StandStats.Builder()
                                     .tier(2)

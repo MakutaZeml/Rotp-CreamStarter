@@ -40,13 +40,13 @@ public class CreamStarterOverrideList extends ItemOverrideList {
                 model = standSpecificModel;
             }
         }
-        CreamStarterAddon.LOGGER.debug("Overrides {}, map {}", wrappedOverrides.resolve(model, item, world, entity),cache);
+        //CreamStarterAddon.LOGGER.debug("Overrides {}, map {}", wrappedOverrides.resolve(model, item, world, entity),cache);
 
         return wrappedOverrides.resolve(model, item, world, entity);
     }
 
     public static void onGettingStandSkins(StandSkin standSkin) {
-        CreamStarterAddon.LOGGER.debug("Started {}?", standSkin);
+        //CreamStarterAddon.LOGGER.debug("Started {}?", standSkin);
         ModelLoader.addSpecialModel(makeStandSpecificModelPath(standSkin.resLoc.getPath()));
 
     }
@@ -55,7 +55,7 @@ public class CreamStarterOverrideList extends ItemOverrideList {
 
     public static ResourceLocation makeStandSpecificModelPath(String path) {
         String location = "item/cream_starter_"+path;
-        CreamStarterAddon.LOGGER.debug("Is this working {} {}, this should be twice", path, new ResourceLocation(CreamStarterAddon.MOD_ID,location));
+        //CreamStarterAddon.LOGGER.debug("Is this working {} {}, this should be twice", path, new ResourceLocation(CreamStarterAddon.MOD_ID,location));
         return new ResourceLocation(CreamStarterAddon.MOD_ID,location);
     }
 

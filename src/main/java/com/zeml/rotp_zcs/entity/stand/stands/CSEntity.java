@@ -23,7 +23,7 @@ public class CSEntity extends StandEntity {
     @Override
     public void tick() {
         super.tick();
-        CreamStarterAddon.LOGGER.debug("Stand Skin {}", this.getStandSkin().toString());
+        //CreamStarterAddon.LOGGER.debug("Stand Skin {}", this.getStandSkin().toString());
     }
 
     @Override

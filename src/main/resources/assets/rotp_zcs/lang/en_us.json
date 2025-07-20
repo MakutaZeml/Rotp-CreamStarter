@@ -12,7 +12,9 @@
   "action.rotp_zcs.cs_entity_fill": "Fill Cream Starter",
   "action.rotp_zcs.cs_deform": "Melting through blocks",
   "action.rotp_zcs.cs_dsg_item": "Give meat disguise",
+
   "action.rotp_zcs.cs_item": "Put Item",
+  "action.rotp_zcs.cs_def": "Deform Target Body",
 
   "rotp_zcs.subtitle.st_shot": "Meat Spray",
   "rotp_zcs.subtitle.hot_cs": "\"Cream Starter\"",

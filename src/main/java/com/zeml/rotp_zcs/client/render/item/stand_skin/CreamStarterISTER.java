@@ -36,7 +36,7 @@ public class CreamStarterISTER extends ItemStackTileEntityRenderer {
 
             pModel = Minecraft.getInstance().getModelManager().getModel(modelResourceLocation);
 
-            CreamStarterAddon.LOGGER.debug("Resource {}, model {}", modelResourceLocation, pModel.getOverrides());
+            //CreamStarterAddon.LOGGER.debug("Resource {}, model {}", modelResourceLocation, pModel.getOverrides());
         }
 
 

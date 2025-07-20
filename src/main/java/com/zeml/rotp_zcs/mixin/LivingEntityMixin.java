@@ -59,7 +59,6 @@ public abstract class LivingEntityMixin  extends Entity {
                 prev *= .05;
             }
         }
-        CreamStarterAddon.LOGGER.debug("Final visibility {}", prev);
         cir.setReturnValue(prev);
     }
 
