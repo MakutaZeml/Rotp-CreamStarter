@@ -12,6 +12,8 @@
   "action.rotp_zcs.cs_entity_fill": "Rellenar Cream Starterr",
   "action.rotp_zcs.cs_deform": "Derretirse a traves de bloques",
   "action.rotp_zcs.cs_dsg_item": "Obtener disfraz de carne",
+
+  "action.rotp_zcs.cs_def": "Deformar cuerpo enemigo",
   "action.rotp_zcs.cs_item": "Insertar item",
 
   "rotp_zcs.subtitle.st_shot": "Spray de carne",
